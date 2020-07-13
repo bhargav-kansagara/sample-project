@@ -1,0 +1,73 @@
+<!--
+***********************************************************************************************
+Directory.build.props
+
+Copyright (C) Microsoft. All rights reserved.
+
+Reference: https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build?view=vs-2017
+    "Prior to MSBuild version 15, if you wanted to provide a new, custom property to projects
+    in your solution, you had to manually add a reference to that property to every project
+    file in the solution. Or, you had to define the property in a .props file and then
+    explicitly import the .props file in every project in the solution, among other things.
+    However, now you can add a new property to every project in one step by defining it in a
+    single file called Directory.Build.props in the root folder that contains your source. When
+    MSBuild runs, Microsoft.Common.props searches your directory structure for the
+    Directory.Build.props file (and Microsoft.Common.targets looks for
+    Directory.Build.targets). If it finds one, it imports the property. Directory.Build.props
+    is a user-defined file that provides customizations to projects under a directory."
+***********************************************************************************************
+-->
+
+<Project>
+
+
+  <PropertyGroup Label="Default build">
+    <Configuration Condition=" '$(Configuration)'=='' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)'=='' ">AnyCPU</Platform>
+    <DebugType Condition=" '$(Configuration)'=='Debug' and '$(DebugType)'==''">full</DebugType>
+  </PropertyGroup>
+
+  <!-- Settings common to all projects -->
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Global locations">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+
+  <!-- Centralize Output for Official Build systems -->
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+    <!-- Overridable output paths include BinPath, and IntermediatePath -->
+    <BinPath Condition=" '$(BinPath)' == '' ">bin\</BinPath>
+    <IntermediatePath Condition=" '$(IntermediatePath)' == '' ">obj\</IntermediatePath>
+
+    <!-- Output path for the configuration/platform combination. -->
+    <RootOutputPath>$(BinPath)$(Configuration)</RootOutputPath>
+    <RootOutputPath>$(RootOutputPath)\</RootOutputPath>
+
+    <OutputPath>$(RootOutputPath)</OutputPath>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutDir>$(OutputPath)</OutDir>
+
+    <!-- Intermediates path for the configuration/platform combination. -->
+    <ConfigIntermediateOutputPath>$(IntermediatePath)$(Configuration)</ConfigIntermediateOutputPath>
+    <ConfigIntermediateOutputPath>$(ConfigIntermediateOutputPath)\</ConfigIntermediateOutputPath>
+
+    <!-- Index publish output by project name -->
+    <PublishDir>$(OutputPath)publish</PublishDir>
+
+  </PropertyGroup>
+
+  <!-- Enable pdbonly symbols on Release builds. Switch to "full" for legacy compatibility, if needed. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+</Project>

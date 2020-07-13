@@ -1,0 +1,21 @@
+<Project>
+
+<PropertyGroup>
+  <TestLevel Condition=" '$(TestLevel)' == '' ">L0</TestLevel>
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+</PropertyGroup>
+
+<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+<!-- Testing libraries -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+</Project>

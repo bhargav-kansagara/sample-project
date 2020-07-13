@@ -1,0 +1,8 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="CheckFrameworkVersions">
+  <Sdk Name="Microsoft.Build.CentralPackageVersions"/>
+
+  <Target Name="CheckFrameworkVersions" Condition="'$(TargetFramework)'!= '' And '$(TargetFramework)' != 'netcoreapp3.1'">
+    <Error Text="The .net core version '$(TargetFramework)' should be same as specified in '$(MSBuildThisFileFullPath)' file" File="$(MSBuildProjectFullPath)" />
+  </Target>
+
+</Project>

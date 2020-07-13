@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.Build.Traversal">
+ <ItemGroup>
+    <ProjectFile Include="Test.L0.Tests/Test.L0.Tests.csproj"/>
+ </ItemGroup>
+</Project>
