@@ -64,10 +64,4 @@ Reference: https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-
     <PublishDir>$(OutputPath)publish</PublishDir>
 
   </PropertyGroup>
-
-  <!-- Enable pdbonly symbols on Release builds. Switch to "full" for legacy compatibility, if needed. -->
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <DebugType>pdbonly</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
 </Project>
